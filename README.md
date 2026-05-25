@@ -1,4 +1,4 @@
-# Backend (FastAPI) — Airline Reservation System version 1
+# Backend (FastAPI) — Airline Reservation System 
 
 This folder (`src/`) contains the backend modules (routers/controllers/models) for the Airline Reservation System API. The app entrypoint is `main.py` at the repo root.
 
