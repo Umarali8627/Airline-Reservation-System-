@@ -19,7 +19,8 @@ from src.booking.dtos import (
 )
 
 booking_router = APIRouter(
-    prefix='/bookings'
+    prefix='/bookings',
+    tags=['Bookings']
 )
 # get the current user 
 def get_current_user(request:Request,db:Session=Depends(get_db)):

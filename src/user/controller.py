@@ -59,7 +59,15 @@ def login(body:LoginSchema,db:Session):
      # now creating token 
     token=jwt.encode({"_id":is_user.user_id,"exp":exp_time.timestamp()},settings.SECRET_KEY,settings.ALGORITHM)
     
-    return {"token":token}
+    return {
+        "token": token,
+        "user": {
+            "id": is_user.user_id,
+            "username": is_user.user_name,
+            "email": is_user.email,
+            "role": is_user.role
+        }
+    }
 
 def is_authenticated(request: Request, db: Session = Depends(get_db)):
     auth_header=request.headers.get("Authorization")

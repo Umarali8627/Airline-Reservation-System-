@@ -7,7 +7,7 @@ from src.user import controller
 from src.user.model import User
 
 
-airline_router = APIRouter(prefix='/airline')
+airline_router = APIRouter(prefix='/airline',tags=['airline'])
 
 def get_current_admin(request:Request,db:Session=Depends(get_db)):
     return controller.is_admin(request,db)

@@ -18,7 +18,8 @@ from src.passenger.dtos import (
 )
 
 passanger_router = APIRouter(
-    prefix="/passangers"
+    prefix="/passangers",
+    tags=['Passanager']
 )
 
 

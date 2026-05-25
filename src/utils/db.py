@@ -6,10 +6,10 @@ from src.utils.settings import settings
 # create the engine 
 engine = create_engine(url=settings.connection_string)
 # create session 
-sessionlocal= sessionmaker(bind= engine)
+SessionLocal = sessionmaker(bind=engine)
 
 def get_db(): 
-    db= sessionlocal()
+    db = SessionLocal()
     try: 
         yield db
     finally: 
@@ -17,6 +17,5 @@ def get_db():
     
 
 Base = declarative_base()
-        
-    
+
    

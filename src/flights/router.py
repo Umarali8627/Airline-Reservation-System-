@@ -18,7 +18,8 @@ from src.flights.dtos import (
 )
 
 flight_router = APIRouter(
-    prefix="/flights"
+    prefix="/flights",
+    tags=['flights']
 )
 
 
@@ -59,7 +60,7 @@ def get_all(
 # GET FLIGHT BY ID
 # =========================================
 @flight_router.get(
-    "id/{id}",
+    "/id/{id}",
     response_model=FlightResponseSchema
 )
 def get_by_id(
@@ -73,7 +74,7 @@ def get_by_id(
 # UPDATE FLIGHT
 # =========================================
 @flight_router.put(
-    "update/{id}",
+    "/update/{id}",
     response_model=FlightResponseSchema
 )
 def update(
@@ -89,7 +90,7 @@ def update(
 # DELETE FLIGHT
 # =========================================
 @flight_router.delete(
-    "dletete/{id}",
+    "/dletete/{id}",
     status_code=status.HTTP_200_OK
 )
 def delete(

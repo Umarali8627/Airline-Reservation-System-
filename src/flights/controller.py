@@ -4,7 +4,6 @@ from sqlalchemy.orm import Session
 from src.flights.model import Flights
 from src.airline.model import Airline
 from src.airport.model import Airport
-
 from src.flights.dtos import (
     FlightCreateSchema,
     FlightUpdateSchema

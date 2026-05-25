@@ -19,6 +19,7 @@ from src.seats.dtos import (
 
 seat_router = APIRouter(
     prefix="/seats",
+    tags=['Seats']
 )
 
 

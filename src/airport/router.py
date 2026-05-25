@@ -7,7 +7,7 @@ from src.airport.controller import (create_airport,getbyname,get_all_airport,
 from src.user import controller
 from src.user.model import User
 
-airport_router= APIRouter(prefix='/airport')
+airport_router= APIRouter(prefix='/airport',tags=['airport'])
 
 def get_current_admin(request:Request,db:Session=Depends(get_db)):
     return controller.is_admin(request,db)
@@ -27,6 +27,6 @@ def getbyId(id:int,db:Session=Depends(get_db),current_admin:User=Depends(get_cur
 @airport_router.put('/update/{id}',status_code=status.HTTP_200_OK)
 def update_airport(id:int,body:UpdateAirportSchema,db:Session=Depends(get_db),current_admin:User=Depends(get_current_admin)):
     return updateAirport(id,body,db)
-@airport_router.delete('delete/{id}',)
+@airport_router.delete('/delete/{id}',)
 def delete_airport(id:int,db:Session=Depends(get_db),current_admin:User=Depends(get_current_admin)):
     return delete_airportbyid(id,db)
