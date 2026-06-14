@@ -13,13 +13,15 @@ def get_current_admin(request:Request,db:Session=Depends(get_db)):
     return controller.is_admin(request,db)
 
 @airport_router.post('/create',response_model=CreateSchema,status_code=status.HTTP_201_CREATED)
-def create(body:CreateSchema,db:Session=Depends(get_db),current_admin:User=Depends(get_current_admin)):
+def create(body:CreateSchema,db:Session=Depends(get_db),
+        # current_admin:User=Depends(get_current_admin)
+        ):
     return create_airport(body,db)
 @airport_router.get('/name/{name}',response_model=list[CreateSchema],status_code=status.HTTP_200_OK)
 def get_by_name(name:str,db:Session=Depends(get_db),current_admin:User=Depends(get_current_admin)):
     return getbyname(name,db)
 @airport_router.get('/all',status_code=status.HTTP_200_OK)
-def get_all(db:Session=Depends(get_db),current_admin:User=Depends(get_current_admin)):
+def get_all(db:Session=Depends(get_db)):
     return get_all_airport(db)
 @airport_router.get('/id/{id}',response_model=CreateSchema,status_code=status.HTTP_200_OK)
 def getbyId(id:int,db:Session=Depends(get_db),current_admin:User=Depends(get_current_admin)):

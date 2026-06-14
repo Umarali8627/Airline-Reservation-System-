@@ -8,18 +8,41 @@ from typing import Optional
 # =========================================
 class FlightBaseSchema(BaseModel):
     airline_id: int
-    dep_air_id: int
-    arr_air_id: int
+    dep_city :str
+    arr_city:str
+    dep_airport: str
+    airline_name : str
+    dep_airport : str
+    arr_airport : str
+    arr_airport: str
     arrival_time: datetime
     departure_time: datetime
     total_seats: int
-
+    available_seats:int 
+    economy_seats:int 
+    premium_seats:int 
+    business_seats :int
+    economy_price:int
+    premium_price:int
+    business_price:int
+    
 
 # =========================================
 # CREATE SCHEMA
 # =========================================
-class FlightCreateSchema(FlightBaseSchema):
-    pass
+class FlightCreateSchema(BaseModel):
+        airline_id:int
+        dep_air_id:int 
+        arr_air_id:int
+        arrival_time:datetime
+        departure_time:datetime 
+        total_seats:int
+        economy_seats:int 
+        premium_seats:int 
+        business_seats :int
+        economy_price:int
+        premium_price:int
+        business_price:int
 
 
 # =========================================

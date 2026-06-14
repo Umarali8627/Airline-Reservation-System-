@@ -19,6 +19,10 @@ class Flights(Base):
     departure_time = Column(DateTime, default=datetime.now)
 
     total_seats = Column(Integer)
+    # types of seats 
+    economy_seats = Column(Integer)
+    premium_seats = Column(Integer)
+    business_seats = Column(Integer)
 
     airline = relationship("Airline", back_populates="flights")
 
@@ -35,3 +39,7 @@ class Flights(Base):
     )
 
     seats = relationship("Seats", back_populates="flight")
+    # prices of the current flight 
+    economy_price = Column(Integer)
+    premium_price = Column(Integer)
+    business_price = Column(Integer)

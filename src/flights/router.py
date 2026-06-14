@@ -8,8 +8,11 @@ from src.flights.controller import (
     get_all_flights,
     get_flight_by_id,
     update_flight,
-    delete_flight
+    delete_flight,
+    search_flights,
+
 )
+from datetime import datetime 
 from src.user.model import User
 from src.flights.dtos import (
     FlightCreateSchema,
@@ -32,13 +35,13 @@ def get_current_admin(request:Request,db:Session=Depends(get_db)):
 # =========================================
 @flight_router.post(
     "/create",
-    response_model=FlightResponseSchema,
+    response_model=FlightCreateSchema,
     status_code=status.HTTP_201_CREATED
 )
 def create(
     body: FlightCreateSchema,
     db: Session = Depends(get_db),
-    current_admin:User=Depends(get_current_admin)
+    # current_admin:User=Depends(get_current_admin)
 ):
     return create_flight(body, db)
 
@@ -99,3 +102,12 @@ def delete(
     current_admin:User=Depends(get_current_admin)
 ):
     return delete_flight(id, db)
+
+@flight_router.get('/search/flights')
+def search_flight(
+   dep_airp:str,
+   arr_airp:str,
+   dept_time : datetime,
+   db=Depends(get_db)
+):
+    return search_flights(dep_airp,arr_airp,dept_time,db)

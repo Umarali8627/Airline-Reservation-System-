@@ -7,13 +7,13 @@ class Seats(Base):
 
     seat_id = Column(Integer, primary_key=True)
 
-    flight_no = Column(Integer, ForeignKey('Flights.f_id'))
+    flight_no = Column(Integer, ForeignKey('Flights.f_id'),index=True)
 
-    seat_no = Column(Integer)
+    seat_no = Column(String)
 
     seat_class = Column(
-        Enum('Economy', 'Business', 'Premium', name='seat_class_enum'),
-        default='Economy'
+        Enum('Economy', 'Business', 'Premium',
+              name='seat_class_enum')
     )
 
     is_book = Column(Boolean, default=False)

@@ -6,12 +6,36 @@ from src.booking.dtos import (
 )
 from src.user.model import User
 from src.booking.model import Bookings
+from src.seats.model import Seats
 
-def create_booking(body: BookingCreateSchema, db: Session,current_user:User):
+def create_booking(body: BookingCreateSchema, db: Session, current_user: User):
 
-    # check if seat already booked
+    # ── Resolve seat_id from seat_no + flight_id if not provided directly ──
+    seat_id = body.seat_id
+
+    if seat_id is None:
+        seat = db.query(Seats).filter(
+            Seats.seat_no == body.seat_no,
+            Seats.flight_no == body.flight_id
+        ).first()
+
+        if not seat:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Seat {body.seat_no} not found for flight {body.flight_id}"
+            )
+
+        if seat.is_book:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail=f"Seat {body.seat_no} is already booked"
+            )
+
+        seat_id = seat.seat_id
+
+    # ── Check if seat is already booked ──
     is_exist = db.query(Bookings).filter(
-        Bookings.seat_id == body.seat_id,
+        Bookings.seat_id == seat_id,
         Bookings.status != "cancelled"
     ).first()
 
@@ -21,16 +45,20 @@ def create_booking(body: BookingCreateSchema, db: Session,current_user:User):
             detail="Seat already booked"
         )
 
-    data = body.model_dump()
-
     new_booking = Bookings(
-        seat_id=data["seat_id"],
+        seat_id=seat_id,
         user_id=current_user.user_id
     )
 
     db.add(new_booking)
     db.commit()
     db.refresh(new_booking)
+
+    # ── Mark seat as booked ──
+    seat_record = db.query(Seats).filter(Seats.seat_id == seat_id).first()
+    if seat_record:
+        seat_record.is_book = True
+        db.commit()
 
     return new_booking
 

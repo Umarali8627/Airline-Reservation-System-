@@ -13,10 +13,12 @@ def get_current_admin(request:Request,db:Session=Depends(get_db)):
     return controller.is_admin(request,db)
 
 @airline_router.post('/create',response_model=ResponseSchema,status_code=status.HTTP_201_CREATED)
-def create_airline(body:AirlineSchema,db:Session=Depends(get_db),current_admin:User=Depends(get_current_admin)):
+def create_airline(body:AirlineSchema,db:Session=Depends(get_db),
+                #    current_admin:User=Depends(get_current_admin)
+                   ):
     return add_airline(body,db)
-@airline_router.get('/all',response_model=ResponseSchema,status_code=status.HTTP_200_OK)
-def get_all(db:Session=Depends(get_db),current_admin:User=Depends(get_current_admin)):
+@airline_router.get('/all',response_model=list[ResponseSchema],status_code=status.HTTP_200_OK)
+def get_all(db:Session=Depends(get_db)):
     return get_all_airline(db)
 @airline_router.get('/{id}',response_model=ResponseSchema,status_code=status.HTTP_200_OK)
 def getairbyId(id:int,db:Session=Depends(get_db),current_admin:User=Depends(get_current_admin)):
