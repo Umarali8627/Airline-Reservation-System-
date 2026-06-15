@@ -19,7 +19,7 @@ This folder (`src/`) contains the backend modules (routers/controllers/models) f
 ## Requirements
 
 - Python 3.10+ recommended
-- A database supported by SQLAlchemy (project is currently configured via `connection_string`)
+- A database supported by SQLAlchemy (project is currently configured via `DATABASE_URL`)
 
 Install dependencies:
 
@@ -34,7 +34,7 @@ pip install -r requirements.txt
 Create a `.env` file in the repo root (same folder as `main.py`) with:
 
 ```env
-connection_string="postgresql://USER:PASSWORD@HOST:5432/DB_NAME"
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/DB_NAME"
 EXP_TIME=30
 ALGORITHM="HS256"
 SECRET_KEY="replace-me"
@@ -43,7 +43,7 @@ SECRET_KEY="replace-me"
 Notes:
 
 - `SECRET_KEY` is sensitive. Don’t commit real secrets.
-- `connection_string` must be a valid SQLAlchemy DB URL.
+- `DATABASE_URL` must be a valid SQLAlchemy DB URL.
 
 ## Run the API (local)
 

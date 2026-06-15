@@ -4,7 +4,7 @@ from src.utils.settings import settings
 
 
 # create the engine 
-engine = create_engine(url=settings.connection_string)
+engine = create_engine(url=settings.DATABASE_URL)
 # create session 
 SessionLocal = sessionmaker(bind=engine)
 
