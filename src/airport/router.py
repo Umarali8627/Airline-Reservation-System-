@@ -14,7 +14,7 @@ def get_current_admin(request:Request,db:Session=Depends(get_db)):
 
 @airport_router.post('/create',response_model=CreateSchema,status_code=status.HTTP_201_CREATED)
 def create(body:CreateSchema,db:Session=Depends(get_db),
-        # current_admin:User=Depends(get_current_admin)
+        current_admin:User=Depends(get_current_admin)
         ):
     return create_airport(body,db)
 @airport_router.get('/name/{name}',response_model=list[CreateSchema],status_code=status.HTTP_200_OK)

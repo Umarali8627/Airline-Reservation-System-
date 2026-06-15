@@ -41,7 +41,7 @@ def get_current_admin(request:Request,db:Session=Depends(get_db)):
 def create(
     body: FlightCreateSchema,
     db: Session = Depends(get_db),
-    # current_admin:User=Depends(get_current_admin)
+    current_admin:User=Depends(get_current_admin)
 ):
     return create_flight(body, db)
 
