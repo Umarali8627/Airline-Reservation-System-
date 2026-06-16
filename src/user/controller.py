@@ -10,7 +10,7 @@ from src.user.model import User
 from src.utils.db import get_db
 from src.utils.helper import get_password_hash, verify_password
 from src.utils.settings import settings
-
+from src.user.dtos import UserData
 
 def register(body:UserRegisterSchema,db:Session):
     # check duplicate user 
@@ -96,3 +96,42 @@ def is_admin(request: Request, db: Session = Depends(get_db)):
             detail="Admin access required",
         )
     return user
+# def get_allUser(db:Session):
+
+#     users = db.query(User).all()
+#     for user in users :
+#        booking = db.query(Bookings).filter(Bookings.user_id==user.user_id).first()
+    
+#     booking_count=[]
+#     # count current booking of the user 
+#     # for user in users:
+#     #     booking_count = sum(
+#     #         1 for booking in user.bookings.user_id==user.user_id
+#     #     )
+#     # print(booking_count)
+#     if not users:
+#         raise HTTPException(
+#             status_code=status.HTTP_204_NO_CONTENT,
+#             detail="There is no avialable users"
+#         )
+#     return users
+def get_allUser(db: Session):
+
+    users = db.query(User).all()
+
+    if not users:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="There is no available users"
+        )
+
+    return [
+        UserData(
+            user_id=user.user_id,
+            user_name=user.user_name,
+            email=user.email,
+            role=user.role,
+            Bookings=len(user.bookings)
+        )
+        for user in users
+    ]
