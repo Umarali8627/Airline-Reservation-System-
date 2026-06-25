@@ -306,21 +306,31 @@ def search_flights(
     DepAirport = aliased(Airport)
     ArrAirport = aliased(Airport)
 
-    departure_start = departure_time.replace(hour=0, minute=0, second=0, microsecond=0)
-    departure_end = departure_start + timedelta(days=1)
+    # Build query with optional filters
+    query = db.query(Flights).join(
+        DepAirport, Flights.dep_air_id == DepAirport.airp_id
+    ).join(
+        ArrAirport, Flights.arr_air_id == ArrAirport.airp_id
+    )
 
-    flights = (
-        db.query(Flights)
-        .join(DepAirport, Flights.dep_air_id == DepAirport.airp_id)
-        .join(ArrAirport, Flights.arr_air_id == ArrAirport.airp_id)
-        .filter(
-            DepAirport.airport_name == from_airp,
-            ArrAirport.airport_name == to_airp,
+    # Only filter by departure airport if provided
+    if from_airp:
+        query = query.filter(DepAirport.airport_name == from_airp)
+    
+    # Only filter by arrival airport if provided
+    if to_airp:
+        query = query.filter(ArrAirport.airport_name == to_airp)
+    
+    # Only filter by date if provided
+    if departure_time:
+        departure_start = departure_time.replace(hour=0, minute=0, second=0, microsecond=0)
+        departure_end = departure_start + timedelta(days=1)
+        query = query.filter(
             Flights.departure_time >= departure_start,
             Flights.departure_time < departure_end
         )
-        .all()
-    )
+
+    flights = query.all()
 
     if not flights:
         raise HTTPException(
