@@ -105,9 +105,17 @@ def delete(
 
 @flight_router.get('/search/flights')
 def search_flight(
-   dep_airp:str,
-   arr_airp:str,
-   dept_time : datetime,
+   dep_airp: str = "",
+   arr_airp: str = "",
+   dept_time: str = "",
    db=Depends(get_db)
 ):
-    return search_flights(dep_airp,arr_airp,dept_time,db)
+    # Convert date string to datetime if provided
+    departure_datetime = None
+    if dept_time:
+        try:
+            departure_datetime = datetime.fromisoformat(dept_time.replace('Z', '+00:00'))
+        except (ValueError, AttributeError):
+            departure_datetime = None
+    
+    return search_flights(dep_airp, arr_airp, departure_datetime, db)
